@@ -20,6 +20,10 @@ okhttp_version = "4.12.0"
 retrofit_version = "2.9.0"
 coroutines-android_version = "1.7.3"
 stetho_version = "1.6.0"
+test-runner_version = "1.5.2"
+mockito_version = "5.2.0"
+roboelectric_version = "4.10.3"
+coroutines-test_version = "1.5.1"
 
 [libraries]
 androidx-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "ktx_version" }
@@ -41,7 +45,8 @@ androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecyc
 androidx-lifecycle-viewmodel-savedstate =  { group = "androidx.lifecycle", name = "lifecycle-viewmodel-savedstate", version.ref = "lifecycle_version" }
 androidx-fragment-ktx =  { group = "androidx.fragment", name = "fragment-ktx", version.ref = "fragment_ktx_version" }
 dagger-hilt = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt_version" }
-dagger-hilt-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hilt_version" }
+dagger-hilt-compiler = { group = "com.google.dagger", name = "hilt-compiler", version.ref = "hilt_version" }
+dagger-hilt-android-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hilt_version" }
 gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson_version" }
 square-okhttp = { group = "com.squareup.okhttp3", name = "okhttp", version.ref = "okhttp_version" }
 square-okhttp-interceptor-logging = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "okhttp_version" }
@@ -51,6 +56,12 @@ square-retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version
 square-retrofit-convertorfactory-moshi = { group = "com.squareup.retrofit2", name = "converter-moshi", version.ref = "retrofit_version" }
 square-retrofit-convertorfactory-gson = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofit_version" }
 kotlinx-coroutines = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "coroutines-android_version" }
+androidx-test-runner = { group = "androidx.test", name = "runner", version.ref = "test-runner_version" }
+dagger-hilt-android-testing = { group = "com.google.dagger", name = "hilt-android-testing", version.ref = "hilt_version" }
+mockito-core = { group = "org.mockito", name = "mockito-core", version.ref = "mockito_version" }
+mockito-android = { group = "org.mockito", name = "mockito-android", version.ref = "mockito_version" }
+roboelectric = { group = "org.robolectric", name = "robolectric", version.ref = "roboelectric_version" }
+kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "coroutines-test_version" }
 
 [plugins]
 org-jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "org-jetbrains-kotlin-android_version" }

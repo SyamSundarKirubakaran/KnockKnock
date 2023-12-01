@@ -24,6 +24,12 @@ android {
         buildConfig = true
     }
 
+    testOptions {
+        unitTests {
+            isIncludeAndroidResources = true
+        }
+    }
+
     buildTypes {
 
         val apiBaseUrl = "API_BASE_URL"
@@ -94,6 +100,9 @@ dependencies {
     // coroutines
     implementation(libs.kotlinx.coroutines)
 
+    // custom test runners
+    implementation(libs.androidx.test.runner)
+
     /////// test dependencies
 
     // junit
@@ -102,6 +111,21 @@ dependencies {
     // android test - junit, espresso
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso)
+
+    // hilt
+    testImplementation(libs.dagger.hilt.android.testing)
+    kaptTest(libs.dagger.hilt.android.compiler)
+
+
+    // mockito
+    testImplementation(libs.mockito.core)
+    testImplementation(libs.mockito.android)
+
+    // roboelectric
+    testImplementation(libs.roboelectric)
+
+    // coroutine test
+    testImplementation(libs.kotlinx.coroutines.test)
 }
 
 kapt {
