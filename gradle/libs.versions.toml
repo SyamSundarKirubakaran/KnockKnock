@@ -45,7 +45,8 @@ gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson_vers
 square-okhttp = { group = "com.squareup.okhttp3", name = "okhttp", version.ref = "okhttp_version" }
 square-okhttp-interceptor = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "okhttp_version" }
 square-retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit_version" }
-square-moshi = { group = "com.squareup.retrofit2", name = "converter-moshi", version.ref = "retrofit_version" }
+square-retrofit-convertorfactory-moshi = { group = "com.squareup.retrofit2", name = "converter-moshi", version.ref = "retrofit_version" }
+square-retrofit-convertorfactory-gson = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofit_version" }
 kotlinx-coroutines = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "coroutines-android_version" }
 
 [plugins]

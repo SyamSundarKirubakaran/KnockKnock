@@ -21,11 +21,21 @@ android {
 
     buildFeatures {
         viewBinding = true
+        buildConfig = true
     }
 
     buildTypes {
-        release {
+
+        val apiBaseUrl = "API_BASE_URL"
+        val apiBaseUrlType = "String"
+
+        debug {
             isMinifyEnabled = false
+            buildConfigField(apiBaseUrlType, apiBaseUrl, "\"https://api.github.com\"")
+        }
+        release {
+            isMinifyEnabled = true
+            buildConfigField(apiBaseUrlType, apiBaseUrl, "\"https://api.github.com\"")
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -71,13 +81,13 @@ dependencies {
 
     // picasso
     implementation(libs.squareup.picasso)
-    
+
     // networking
     implementation(libs.gson)
     implementation(libs.square.okhttp)
     implementation(libs.square.okhttp.interceptor)
     implementation(libs.square.retrofit)
-    implementation(libs.square.moshi)
+    implementation(libs.square.retrofit.convertorfactory.gson)
 
     // coroutines
     implementation(libs.kotlinx.coroutines)
