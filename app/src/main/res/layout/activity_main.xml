@@ -91,7 +91,7 @@
                 android:id="@+id/success"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:constraint_referenced_ids="image,name,location"
+                app:constraint_referenced_ids="image,name,location,followers"
                 android:visibility="visible"/>
 
             <androidx.constraintlayout.widget.Group

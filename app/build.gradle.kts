@@ -95,7 +95,12 @@ dependencies {
     implementation(libs.fb.interceptor.stetho)
     implementation(libs.square.okhttp.interceptor.stetho)
     implementation(libs.square.retrofit)
+    implementation(libs.square.retrofit.rxjava2.adapter)
     implementation(libs.square.retrofit.convertorfactory.gson)
+
+    // rxjava
+    implementation(libs.reactivex.rxjava)
+    implementation(libs.reactivex.rxandroid)
 
     // coroutines
     implementation(libs.kotlinx.coroutines)

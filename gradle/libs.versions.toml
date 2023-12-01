@@ -23,7 +23,11 @@ stetho_version = "1.6.0"
 test-runner_version = "1.5.2"
 mockito_version = "5.2.0"
 roboelectric_version = "4.10.3"
-coroutines-test_version = "1.5.1"
+coroutines-test_version = "1.7.3"
+rxjava3_version = "3.1.5"
+rxandroid3_version = "3.0.2"
+rxjava2_version = "2.2.21"
+rxandroid2_version = "2.1.1"
 
 [libraries]
 androidx-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "ktx_version" }
@@ -53,8 +57,14 @@ square-okhttp-interceptor-logging = { group = "com.squareup.okhttp3", name = "lo
 fb-interceptor-stetho = { group = "com.facebook.stetho", name = "stetho", version.ref = "stetho_version" }
 square-okhttp-interceptor-stetho = { group = "com.facebook.stetho", name = "stetho-okhttp3", version.ref = "stetho_version" }
 square-retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit_version" }
+square-retrofit-rxjava3-adapter = { group = "com.squareup.retrofit2", name = "adapter-rxjava3", version.ref = "retrofit_version" }
+square-retrofit-rxjava2-adapter = { group = "com.squareup.retrofit2", name = "adapter-rxjava2", version.ref = "retrofit_version" }
 square-retrofit-convertorfactory-moshi = { group = "com.squareup.retrofit2", name = "converter-moshi", version.ref = "retrofit_version" }
 square-retrofit-convertorfactory-gson = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofit_version" }
+reactivex-rxjava3 = { group = "io.reactivex.rxjava3", name = "rxjava", version.ref = "rxjava3_version" }
+reactivex-rxjava = { group = "io.reactivex.rxjava2", name = "rxjava", version.ref = "rxjava2_version" }
+reactivex-rxandroid3 = { group = "io.reactivex.rxjava3", name = "rxandroid", version.ref = "rxandroid3_version" }
+reactivex-rxandroid = { group = "io.reactivex.rxjava2", name = "rxandroid", version.ref = "rxandroid2_version" }
 kotlinx-coroutines = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "coroutines-android_version" }
 androidx-test-runner = { group = "androidx.test", name = "runner", version.ref = "test-runner_version" }
 dagger-hilt-android-testing = { group = "com.google.dagger", name = "hilt-android-testing", version.ref = "hilt_version" }

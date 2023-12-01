@@ -11,6 +11,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import work.syam.knockknock.BuildConfig
 import java.util.concurrent.TimeUnit
 import com.facebook.stetho.okhttp3.StethoInterceptor
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import javax.inject.Singleton
 
 
@@ -42,6 +43,7 @@ object NetworkModule {
     fun providesRetrofit(okHttpClient: OkHttpClient): Retrofit = Retrofit.Builder().apply {
         baseUrl(BuildConfig.API_BASE_URL)
         client(okHttpClient)
+        addCallAdapterFactory(RxJava2CallAdapterFactory.create())
         addConverterFactory(GsonConverterFactory.create())
     }.build()
 }

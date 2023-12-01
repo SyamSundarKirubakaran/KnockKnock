@@ -49,11 +49,11 @@ class HomeViewModelTest {
     fun `test User data success`() {
         homeViewModel.loadUserData()
         Shadows.shadowOf(Looper.getMainLooper()).idle()
-        val value = homeViewModel.userFlow.value
+        val value = homeViewModel.userLiveData.value
         Assert.assertTrue(value is UIState.Success)
-        Assert.assertNotNull(value.data)
-        Assert.assertEquals(26897680, value.data?.id)
-        Assert.assertEquals("Syam Sundar Kirubakaran", value.data?.name)
+        Assert.assertNotNull(value?.data)
+        Assert.assertEquals(26897680, value?.data?.id)
+        Assert.assertEquals("Syam Sundar Kirubakaran", value?.data?.name)
     }
 
     @Test
@@ -61,9 +61,9 @@ class HomeViewModelTest {
         fakeApiService.failUserApi = true
         homeViewModel.loadUserData()
         Shadows.shadowOf(Looper.getMainLooper()).idle()
-        val value = homeViewModel.userFlow.value
+        val value = homeViewModel.userLiveData.value
         Assert.assertTrue(value is UIState.Error)
-        Assert.assertNull(value.data)
+        Assert.assertNull(value?.data)
     }
 
     @Test
@@ -71,10 +71,10 @@ class HomeViewModelTest {
         fakeApiService.wrongResponse = true
         homeViewModel.loadUserData()
         Shadows.shadowOf(Looper.getMainLooper()).idle()
-        val value = homeViewModel.userFlow.value
+        val value = homeViewModel.userLiveData.value
         Assert.assertTrue(value is UIState.Success)
-        Assert.assertNotNull(value.data)
-        Assert.assertEquals("", value.data?.name)
+        Assert.assertNotNull(value?.data)
+        Assert.assertEquals("", value?.data?.name)
     }
 
 }

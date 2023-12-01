@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.lifecycleScope
 import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
 import work.syam.knockknock.R
@@ -36,13 +35,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun observeFlowData() {
-        lifecycleScope.launchWhenStarted {
-            homeViewModel?.userFlow?.collect { state ->
-                if(state is UIState.Success){
-                    state.data?.let { updateUI(it) }
-                }
-                updateUI(state)
+        homeViewModel?.userLiveData?.observe(this@MainActivity) { state ->
+            if (state is UIState.Success) {
+                state.data?.let { updateUI(it) }
             }
+            updateUI(state)
         }
     }
 
@@ -51,7 +48,7 @@ class MainActivity : AppCompatActivity() {
             progress.visibility = View.GONE
             success.visibility = View.INVISIBLE
             failure.visibility = View.GONE
-            when(uiState){
+            when (uiState) {
                 is UIState.Loading -> progress.visibility = View.VISIBLE
                 is UIState.Success -> success.visibility = View.VISIBLE
                 is UIState.Error -> failure.visibility = View.VISIBLE

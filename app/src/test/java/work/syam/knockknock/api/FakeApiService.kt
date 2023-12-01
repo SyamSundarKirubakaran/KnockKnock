@@ -1,9 +1,9 @@
 package work.syam.knockknock.api
 
+import io.reactivex.Observable
 import work.syam.knockknock.JsonProvider
 import work.syam.knockknock.data.model.User
 import work.syam.knockknock.data.network.ApiServices
-import java.lang.Exception
 import javax.inject.Inject
 
 class FakeApiService @Inject constructor() : ApiServices {
@@ -11,13 +11,13 @@ class FakeApiService @Inject constructor() : ApiServices {
     var failUserApi: Boolean = false
     var wrongResponse: Boolean = false
 
-    override suspend fun getUser(): User {
+    override fun getUser(): Observable<User> {
         if (failUserApi) throw Exception("Api failed")
         val fakeResponse: User = JsonProvider.objectFromJsonFileWithType(USER_JSON)
 
-        if (wrongResponse) return fakeResponse.copy(name = "")
+        if (wrongResponse) return Observable.just(fakeResponse.copy(name = ""))
 
-        return fakeResponse
+        return Observable.just(fakeResponse)
     }
 
     companion object {

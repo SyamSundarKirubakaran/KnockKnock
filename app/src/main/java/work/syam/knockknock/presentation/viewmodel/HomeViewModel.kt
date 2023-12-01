@@ -1,13 +1,13 @@
 package work.syam.knockknock.presentation.viewmodel
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.launch
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
 import work.syam.knockknock.data.model.User
 import work.syam.knockknock.data.network.ApiRepository
 import work.syam.knockknock.presentation.model.UIState
@@ -19,18 +19,25 @@ class HomeViewModel @Inject constructor(
     private val apiRepository: ApiRepository
 ) : ViewModel() {
 
-    private val _userFlow = MutableStateFlow<UIState<User>>(UIState.Loading())
-    val userFlow: StateFlow<UIState<User>> = _userFlow
+    private val _userLiveData = MutableLiveData<UIState<User>>()
+    val userLiveData: LiveData<UIState<User>> = _userLiveData
+
+    private val compositeDisposable = CompositeDisposable()
 
     fun loadUserData() {
-        viewModelScope.launch {
+        compositeDisposable.add(
             apiRepository.getUser()
-                .catch { exception ->
-                    _userFlow.value = UIState.Error(exception.message)
-                }
-                .collect {
-                    _userFlow.value = UIState.Success(it)
-                }
-        }
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .map { UIState.Success(it) as UIState<User> }
+                .startWith(UIState.Loading<User>() as UIState<User>)
+                .onErrorReturn { UIState.Error<User>(message = it.message) }
+                .subscribe { state: UIState<User> -> _userLiveData.postValue(state) }
+        )
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        compositeDisposable.dispose()
     }
 }
