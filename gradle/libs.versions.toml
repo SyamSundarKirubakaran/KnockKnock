@@ -14,6 +14,7 @@ lifecycle_version = "2.6.2"
 fragment_ktx_version = "1.6.2"
 espresso-contrib_version = "3.5.1"
 test-services_version = "1.4.2"
+hilt_version = "2.44"
 
 [libraries]
 androidx-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "ktx_version" }
@@ -34,6 +35,8 @@ androidx-livedata-ktx = { group = "androidx.lifecycle", name = "lifecycle-liveda
 androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycle_version" }
 androidx-lifecycle-viewmodel-savedstate =  { group = "androidx.lifecycle", name = "lifecycle-viewmodel-savedstate", version.ref = "lifecycle_version" }
 androidx-fragment-ktx =  { group = "androidx.fragment", name = "fragment-ktx", version.ref = "fragment_ktx_version" }
+dagger-hilt = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt_version" }
+dagger-hilt-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hilt_version" }
 
 [plugins]
 org-jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "org-jetbrains-kotlin-android_version" }
