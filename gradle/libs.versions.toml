@@ -14,7 +14,11 @@ lifecycle_version = "2.6.2"
 fragment_ktx_version = "1.6.2"
 espresso-contrib_version = "3.5.1"
 test-services_version = "1.4.2"
-hilt_version = "2.44"
+hilt_version = "2.48.1"
+gson_version = "2.10"
+okhttp_version = "4.12.0"
+retrofit_version = "2.9.0"
+coroutines-android_version = "1.7.3"
 
 [libraries]
 androidx-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "ktx_version" }
@@ -37,6 +41,12 @@ androidx-lifecycle-viewmodel-savedstate =  { group = "androidx.lifecycle", name 
 androidx-fragment-ktx =  { group = "androidx.fragment", name = "fragment-ktx", version.ref = "fragment_ktx_version" }
 dagger-hilt = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt_version" }
 dagger-hilt-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hilt_version" }
+gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson_version" }
+square-okhttp = { group = "com.squareup.okhttp3", name = "okhttp", version.ref = "okhttp_version" }
+square-okhttp-interceptor = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "okhttp_version" }
+square-retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit_version" }
+square-moshi = { group = "com.squareup.retrofit2", name = "converter-moshi", version.ref = "retrofit_version" }
+kotlinx-coroutines = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "coroutines-android_version" }
 
 [plugins]
 org-jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "org-jetbrains-kotlin-android_version" }

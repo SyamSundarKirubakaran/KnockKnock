@@ -19,6 +19,10 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    buildFeatures {
+        viewBinding = true
+    }
+
     buildTypes {
         release {
             isMinifyEnabled = false
@@ -49,16 +53,43 @@ dependencies {
     // constraint layout
     implementation(libs.androidx.constraintlayout)
 
+    // hilt
+    implementation(libs.dagger.hilt)
+    kapt(libs.dagger.hilt.compiler)
+
+    // activity ktx
+    implementation(libs.androidx.activity.ktx)
+
+    // lifecycle ktx
+    implementation(libs.androidx.viewmodel.lifecycle.ktx)
+    implementation(libs.androidx.livedata.ktx)
+    implementation(libs.androidx.lifecycle.runtime.ktx)
+    implementation(libs.androidx.lifecycle.viewmodel.savedstate)
+
+    // fragment ktx
+    implementation(libs.androidx.fragment.ktx)
+
+    // picasso
+    implementation(libs.squareup.picasso)
+    
+    // networking
+    implementation(libs.gson)
+    implementation(libs.square.okhttp)
+    implementation(libs.square.okhttp.interceptor)
+    implementation(libs.square.retrofit)
+    implementation(libs.square.moshi)
+
+    // coroutines
+    implementation(libs.kotlinx.coroutines)
+
+    /////// test dependencies
+
     // junit
     testImplementation(libs.junit4)
 
     // android test - junit, espresso
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso)
-
-    // hilt
-    implementation(libs.dagger.hilt)
-    kapt(libs.dagger.hilt.compiler)
 }
 
 kapt {
