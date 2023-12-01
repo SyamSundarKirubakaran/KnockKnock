@@ -19,6 +19,7 @@ gson_version = "2.10"
 okhttp_version = "4.12.0"
 retrofit_version = "2.9.0"
 coroutines-android_version = "1.7.3"
+stetho_version = "1.6.0"
 
 [libraries]
 androidx-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "ktx_version" }
@@ -43,7 +44,9 @@ dagger-hilt = { group = "com.google.dagger", name = "hilt-android", version.ref 
 dagger-hilt-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hilt_version" }
 gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson_version" }
 square-okhttp = { group = "com.squareup.okhttp3", name = "okhttp", version.ref = "okhttp_version" }
-square-okhttp-interceptor = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "okhttp_version" }
+square-okhttp-interceptor-logging = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "okhttp_version" }
+fb-interceptor-stetho = { group = "com.facebook.stetho", name = "stetho", version.ref = "stetho_version" }
+square-okhttp-interceptor-stetho = { group = "com.facebook.stetho", name = "stetho-okhttp3", version.ref = "stetho_version" }
 square-retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit_version" }
 square-retrofit-convertorfactory-moshi = { group = "com.squareup.retrofit2", name = "converter-moshi", version.ref = "retrofit_version" }
 square-retrofit-convertorfactory-gson = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofit_version" }

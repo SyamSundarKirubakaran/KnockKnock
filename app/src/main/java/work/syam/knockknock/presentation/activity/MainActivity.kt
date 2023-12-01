@@ -25,42 +25,38 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         observeFlowData()
+        setUpButtonObserver()
         homeViewModel?.loadUserData()
+    }
+
+    private fun setUpButtonObserver() {
+        binding.refreshButton.setOnClickListener {
+            homeViewModel?.loadUserData()
+        }
     }
 
     private fun observeFlowData() {
         lifecycleScope.launchWhenStarted {
             homeViewModel?.userFlow?.collect { state ->
-                when (state) {
-                    is UIState.Loading -> {
-                        showProgress()
-                    }
-
-                    is UIState.Success -> {
-                        hideProgress()
-                        state.data?.let { updateUI(it) } ?: showError()
-                    }
-
-                    is UIState.Error -> {
-                        hideProgress()
-                        showError()
-                    }
+                if(state is UIState.Success){
+                    state.data?.let { updateUI(it) }
                 }
+                updateUI(state)
             }
         }
     }
 
-    private fun showProgress() {
-        binding.progressBar.visibility = View.VISIBLE
-    }
-
-    private fun hideProgress() {
-        binding.progressBar.visibility = View.GONE
-    }
-
-    private fun showError() {
-        binding.errorMessage.text = getString(R.string.error_message)
-        binding.errorMessage.visibility = View.VISIBLE
+    private fun updateUI(uiState: UIState<User>) {
+        binding.apply {
+            progress.visibility = View.GONE
+            success.visibility = View.INVISIBLE
+            failure.visibility = View.GONE
+            when(uiState){
+                is UIState.Loading -> progress.visibility = View.VISIBLE
+                is UIState.Success -> success.visibility = View.VISIBLE
+                is UIState.Error -> failure.visibility = View.VISIBLE
+            }
+        }
     }
 
     private fun updateUI(user: User) {

@@ -8,6 +8,7 @@
     tools:context=".presentation.activity.MainActivity">
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:cardCornerRadius="3dp"
@@ -77,15 +78,49 @@
                 style="@style/TextAppearance.AppCompat.Medium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/ps_regular"
                 android:textColor="@color/md_theme_error"
                 android:visibility="gone"
-                android:fontFamily="@font/ps_regular"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:text="error message" />
+                android:text="@string/error_message" />
+
+            <androidx.constraintlayout.widget.Group
+                android:id="@+id/success"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:constraint_referenced_ids="image,name,location"
+                android:visibility="visible"/>
+
+            <androidx.constraintlayout.widget.Group
+                android:id="@+id/progress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:constraint_referenced_ids="progressBar"
+                android:visibility="visible"/>
+
+            <androidx.constraintlayout.widget.Group
+                android:id="@+id/failure"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:constraint_referenced_ids="errorMessage"
+                android:visibility="visible"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
+
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/refreshButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/refresh"
+        style="@style/Widget.Material3.Button.TonalButton"
+        android:layout_marginTop="18dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cardView" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

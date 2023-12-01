@@ -85,7 +85,9 @@ dependencies {
     // networking
     implementation(libs.gson)
     implementation(libs.square.okhttp)
-    implementation(libs.square.okhttp.interceptor)
+    implementation(libs.square.okhttp.interceptor.logging)
+    implementation(libs.fb.interceptor.stetho)
+    implementation(libs.square.okhttp.interceptor.stetho)
     implementation(libs.square.retrofit)
     implementation(libs.square.retrofit.convertorfactory.gson)
 

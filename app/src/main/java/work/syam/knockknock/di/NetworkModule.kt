@@ -10,6 +10,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import work.syam.knockknock.BuildConfig
 import java.util.concurrent.TimeUnit
+import com.facebook.stetho.okhttp3.StethoInterceptor
 import javax.inject.Singleton
 
 
@@ -25,6 +26,7 @@ object NetworkModule {
     @Singleton
     fun providesOkHttp(): OkHttpClient = OkHttpClient.Builder().apply {
         if (BuildConfig.DEBUG) {
+            addNetworkInterceptor(StethoInterceptor())
             addInterceptor(HttpLoggingInterceptor().apply {
                 level = HttpLoggingInterceptor.Level.BODY
             })
