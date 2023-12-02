@@ -27,6 +27,8 @@ object RoomModule {
             appContext,
             UserDatabase::class.java,
             USER_DB_NAME
-        ).build()
+        )
+            .fallbackToDestructiveMigration()
+            .build()
     }
 }

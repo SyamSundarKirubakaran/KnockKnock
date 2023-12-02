@@ -22,7 +22,7 @@ const val USE_IN_MEMORY_DATA = "USE_IN_MEMORY_DATA"
 const val USE_ROOM_DATA = "USE_ROOM_DATA"
 const val USE_MIDDLEWARE_DATA = "USE_MIDDLEWARE_DATA"
 
-const val useDataFrom = USE_API_DATA
+const val useDataFrom = USE_ROOM_DATA
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
