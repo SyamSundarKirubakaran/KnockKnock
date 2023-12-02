@@ -6,11 +6,11 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
-import work.syam.knockknock.data.inmemory.InMemoryUserRepositoryImpl
+import work.syam.knockknock.data.repoimpl.InMemoryUserRepositoryImpl
 import work.syam.knockknock.data.network.ApiServices
-import work.syam.knockknock.data.network.ApiUserRepositoryImpl
+import work.syam.knockknock.data.repoimpl.ApiUserRepositoryImpl
 import work.syam.knockknock.data.repository.UserRepository
-import work.syam.knockknock.data.sharedprefs.SPUserRepositoryImpl
+import work.syam.knockknock.data.repoimpl.SPUserRepositoryImpl
 
 // Depends on - ApiService, ApiRepository and ApiRepositoryImpl
 

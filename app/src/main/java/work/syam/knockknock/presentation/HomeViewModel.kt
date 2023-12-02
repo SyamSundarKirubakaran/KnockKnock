@@ -1,11 +1,10 @@
-package work.syam.knockknock.presentation.viewmodel
+package work.syam.knockknock.presentation
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -13,7 +12,6 @@ import work.syam.knockknock.data.model.User
 import work.syam.knockknock.data.repository.UserRepository
 import work.syam.knockknock.di.ApiSource
 import work.syam.knockknock.di.SharedPreferenceSource
-import work.syam.knockknock.presentation.model.UIState
 import javax.inject.Inject
 
 @HiltViewModel

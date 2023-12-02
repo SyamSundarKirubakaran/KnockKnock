@@ -1,4 +1,4 @@
-package work.syam.knockknock.presentation.model
+package work.syam.knockknock.presentation
 
 sealed class UIState<T>(val data: T? = null, val error: String? = null) {
     class Success<T>(data: T?) : UIState<T>(data)

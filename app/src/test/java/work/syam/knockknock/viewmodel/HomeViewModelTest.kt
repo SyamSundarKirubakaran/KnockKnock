@@ -22,8 +22,8 @@ import work.syam.knockknock.api.FakeApiService
 import work.syam.knockknock.data.repository.UserRepository
 import work.syam.knockknock.di.ApiSource
 import work.syam.knockknock.di.SharedPreferenceSource
-import work.syam.knockknock.presentation.model.UIState
-import work.syam.knockknock.presentation.viewmodel.HomeViewModel
+import work.syam.knockknock.presentation.UIState
+import work.syam.knockknock.presentation.HomeViewModel
 import work.syam.knockknock.util.TestState
 import work.syam.knockknock.util.TestStateCondition
 import javax.inject.Inject

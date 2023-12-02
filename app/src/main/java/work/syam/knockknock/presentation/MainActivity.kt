@@ -1,4 +1,4 @@
-package work.syam.knockknock.presentation.activity
+package work.syam.knockknock.presentation
 
 import android.os.Bundle
 import android.view.View
@@ -12,11 +12,9 @@ import work.syam.knockknock.data.model.User
 import work.syam.knockknock.data.repository.UserRepository
 import work.syam.knockknock.databinding.ActivityMainBinding
 import work.syam.knockknock.di.InMemorySource
-import work.syam.knockknock.presentation.model.UIState
 import work.syam.knockknock.presentation.util.SampleData
 import work.syam.knockknock.presentation.util.safe
 import work.syam.knockknock.presentation.util.shortToast
-import work.syam.knockknock.presentation.viewmodel.HomeViewModel
 import javax.inject.Inject
 
 const val USE_API_DATA = "USE_API_DATA"
@@ -34,7 +32,7 @@ class MainActivity : AppCompatActivity() {
 
     private val compositeDisposable = CompositeDisposable()
 
-    private val useDataFrom = USE_IN_MEMORY_DATA
+    private val useDataFrom = USE_API_DATA
 
     @InMemorySource
     @Inject

@@ -1,6 +1,6 @@
-package work.syam.knockknock.data.middleware
+package work.syam.knockknock.data.repoimpl
 
-class DataSourcer {
+class MiddlewareImpl {
 
     // single source of truth -
     // backend to room - read only from room

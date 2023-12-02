@@ -1,4 +1,4 @@
-package work.syam.knockknock.data.sharedprefs
+package work.syam.knockknock.data.repoimpl
 
 import android.content.SharedPreferences
 import androidx.core.content.edit

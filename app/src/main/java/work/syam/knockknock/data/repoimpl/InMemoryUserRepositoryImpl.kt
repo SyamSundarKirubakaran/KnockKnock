@@ -1,25 +1,28 @@
-package work.syam.knockknock.data.network
+package work.syam.knockknock.data.repoimpl
 
+import dagger.hilt.android.scopes.ActivityScoped
 import io.reactivex.Completable
 import io.reactivex.Observable
 import work.syam.knockknock.data.model.User
 import work.syam.knockknock.data.repository.UserRepository
-import javax.inject.Singleton
 
-// depends on ApiService, Api Repository
+@ActivityScoped
+class InMemoryUserRepositoryImpl : UserRepository {
 
-@Singleton
-class ApiUserRepositoryImpl(private val services: ApiServices) : UserRepository {
+    private var user: User? = null
 
-    override fun getUser(): Observable<User> = services.getUser()
+    override fun getUser(): Observable<User> {
+        return Observable.just(user ?: User())
+    }
 
     override fun setUser(user: User): Completable {
-        // No POST call for user available yet
+        this.user = user
         return Completable.complete()
     }
 
     override fun clearRepository(): Completable {
-        // Clear network cache
+        user = null
         return Completable.complete()
     }
+
 }
