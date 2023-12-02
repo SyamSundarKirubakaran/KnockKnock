@@ -7,6 +7,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.hilt.android.scopes.ActivityScoped
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
 import work.syam.knockknock.data.database.USER_DB_NAME
@@ -22,7 +23,7 @@ import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)
 @Module
-class UserModule {
+object UserModule {
     @ApiSource
     @Provides
     fun providesApiRepository(apiServices: ApiServices): UserRepository =
@@ -40,26 +41,4 @@ class UserModule {
     @RoomSource
     @Provides
     fun providesRoomRepository(userDao: UserDao): UserRepository = RoomUserRepositoryImpl(userDao)
-}
-
-@InstallIn(SingletonComponent::class)
-@Module
-class ApiServiceModule {
-    @Provides
-    fun providesApiServices(retrofit: Retrofit): ApiServices = ApiServices.create(retrofit)
-}
-
-@InstallIn(SingletonComponent::class)
-@Module
-class RoomModule {
-    @Provides
-    @Singleton
-    fun providesDao(@ApplicationContext appContext: Context): UserDao {
-        val instance = Room.databaseBuilder(
-            appContext,
-            UserDatabase::class.java,
-            USER_DB_NAME
-        ).build()
-        return instance.userDao()
-    }
 }

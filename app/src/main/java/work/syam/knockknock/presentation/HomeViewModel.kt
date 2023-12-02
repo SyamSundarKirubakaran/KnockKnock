@@ -9,7 +9,6 @@ import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import org.jetbrains.annotations.VisibleForTesting
 import work.syam.knockknock.data.model.User
 import work.syam.knockknock.data.repository.UserRepository
 import work.syam.knockknock.di.ApiSource
