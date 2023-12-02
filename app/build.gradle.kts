@@ -101,6 +101,14 @@ dependencies {
     implementation(libs.square.retrofit.rxjava2.adapter)
     implementation(libs.square.retrofit.convertorfactory.gson)
 
+    // room
+    implementation(libs.androidx.room.runtime)
+    kapt(libs.androidx.room.compiler)
+    implementation(libs.androidx.room.ktx)
+    implementation(libs.androidx.room.rxjava2)
+    implementation(libs.androidx.room.paging)
+    implementation(libs.androidx.room.testing)
+
     // rxjava
     implementation(libs.reactivex.rxjava)
     implementation(libs.reactivex.rxandroid)

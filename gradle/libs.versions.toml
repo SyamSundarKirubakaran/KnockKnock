@@ -29,6 +29,7 @@ rxandroid3_version = "3.0.2"
 rxjava2_version = "2.2.21"
 rxandroid2_version = "2.1.1"
 preference_version = "1.2.1"
+room_version = "2.6.1"
 
 [libraries]
 androidx-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "ktx_version" }
@@ -74,6 +75,12 @@ mockito-android = { group = "org.mockito", name = "mockito-android", version.ref
 roboelectric = { group = "org.robolectric", name = "robolectric", version.ref = "roboelectric_version" }
 kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "coroutines-test_version" }
 androidx-preference-ktx = { group = "androidx.preference", name = "preference-ktx", version.ref = "preference_version" }
+androidx-room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room_version" }
+androidx-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room_version" }
+androidx-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room_version" }
+androidx-room-paging = { group = "androidx.room", name = "room-paging", version.ref = "room_version" }
+androidx-room-rxjava2 = { group = "androidx.room", name = "room-rxjava2", version.ref = "room_version" }
+androidx-room-testing = { group = "androidx.room", name = "room-testing", version.ref = "room_version" }
 
 [plugins]
 org-jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "org-jetbrains-kotlin-android_version" }

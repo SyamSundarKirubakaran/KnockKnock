@@ -10,3 +10,6 @@ annotation class SharedPreferenceSource
 
 @Qualifier
 annotation class InMemorySource
+
+@Qualifier
+annotation class RoomSource

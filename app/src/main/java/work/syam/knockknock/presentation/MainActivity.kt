@@ -12,16 +12,10 @@ import work.syam.knockknock.data.model.User
 import work.syam.knockknock.data.repository.UserRepository
 import work.syam.knockknock.databinding.ActivityMainBinding
 import work.syam.knockknock.di.InMemorySource
-import work.syam.knockknock.presentation.util.SampleData
+import work.syam.knockknock.presentation.util.MockData
 import work.syam.knockknock.presentation.util.safe
 import work.syam.knockknock.presentation.util.shortToast
 import javax.inject.Inject
-
-const val USE_API_DATA = "USE_API_DATA"
-const val USE_SP_DATA = "USE_SP_DATA"
-const val USE_IN_MEMORY_DATA = "USE_IN_MEMORY_DATA"
-const val USE_ROOM_DATA = "USE_ROOM_DATA"
-const val USE_SOURCER_DATA = "USE_SOURCER_DATA"
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -31,8 +25,6 @@ class MainActivity : AppCompatActivity() {
     private val homeViewModel: HomeViewModel? by viewModels()
 
     private val compositeDisposable = CompositeDisposable()
-
-    private val useDataFrom = USE_API_DATA
 
     @InMemorySource
     @Inject
@@ -44,28 +36,40 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         observeDataChanges()
         setUpButtonObserver()
-        performDataLoading()
+        performDataLoad()
     }
 
-    private fun performDataLoading() {
-        when (useDataFrom) {
-            USE_API_DATA -> {
-                homeViewModel?.loadUserDataFromApi()
-            }
+    private fun performDataLoad() {
+        homeViewModel?.apply {
+            when (useDataFrom) {
+                USE_API_DATA -> {
+                    loadUserData()
+                }
 
-            USE_SP_DATA -> {
-                homeViewModel?.setUserData(SampleData.user1)
-            }
+                USE_SP_DATA -> {
+                    setUserDataSP(user = MockData.user1)
+                }
 
-            USE_IN_MEMORY_DATA -> {
-                setAndShowFromMemory()
+                USE_IN_MEMORY_DATA -> {
+                    setAndShowFromMemory(user = MockData.user2)
+                }
+
+                USE_ROOM_DATA -> {
+                    setUserDataRoom(user = MockData.user3)
+                }
+
+                USE_MIDDLEWARE_DATA -> {}
             }
         }
     }
 
     private fun setUpButtonObserver() {
         binding.refreshButton.setOnClickListener {
-            performDataLoading()
+            if (homeViewModel?.useDataFrom == USE_IN_MEMORY_DATA) {
+                showInMemoryUser()
+            } else {
+                homeViewModel?.loadUserData()
+            }
         }
     }
 
@@ -75,13 +79,6 @@ class MainActivity : AppCompatActivity() {
                 state.data?.let { updateUI(it) }
             }
             updateUI(state)
-        }
-        homeViewModel?.setLiveData?.observe(this@MainActivity) { result ->
-            if (result) {
-                homeViewModel?.loadUserDataFromSP()
-            } else {
-                shortToast("Error Setting SP Data")
-            }
         }
     }
 
@@ -110,15 +107,23 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun setAndShowFromMemory() {
+    private fun showInMemoryUser() {
+        compositeDisposable.add(
+            // TODO: Did not check for getUser Failures
+            inMemoryDataSource.getUser()
+                .subscribe { homeViewModel?.showUserDataInMemo(it) }
+        )
+    }
+
+    private fun setAndShowFromMemory(user: User) {
         if (lifecycle.safe())
             compositeDisposable.add(
-                inMemoryDataSource.setUser(user = SampleData.user2)
+                inMemoryDataSource.setUser(user = user)
                     .onErrorComplete {
                         shortToast("Error writing and getting to in-memory store")
                         false
                     }.andThen {
-                        inMemoryDataSource.getUser().subscribe { homeViewModel?.setUserData(it) }
+                        showInMemoryUser()
                     }.subscribe()
             )
     }
