@@ -7,3 +7,6 @@ annotation class ApiSource
 
 @Qualifier
 annotation class SharedPreferenceSource
+
+@Qualifier
+annotation class InMemorySource

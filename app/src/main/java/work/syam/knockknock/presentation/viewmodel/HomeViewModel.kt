@@ -54,16 +54,10 @@ class HomeViewModel @Inject constructor(
         )
     }
 
-    fun setUserData() {
+    fun setUserData(user: User) {
         compositeDisposable.add(
             spRepository.setUser(
-                User(
-                    name = "Tom Preston-Werner",
-                    avatarUrl = "https://avatars.githubusercontent.com/u/1?v=4",
-                    followers = 23706,
-                    id = 1,
-                    location = "San Franciso"
-                )
+                user
             ).subscribe({
                 _setLiveData.postValue(true)
             }, {

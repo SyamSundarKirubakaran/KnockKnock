@@ -30,11 +30,15 @@ import androidx.annotation.FontRes
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
 import kotlin.contracts.ExperimentalContracts
 import kotlin.contracts.contract
 
 // UI Helpers and Extension functions
 fun Context.shortToast(msg: CharSequence) = Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
+
+fun Lifecycle.safe() =
+    this.currentState.isAtLeast(Lifecycle.State.INITIALIZED) && this.currentState != Lifecycle.State.DESTROYED
 
 operator fun String.get(range: IntRange) = substring(range.first, range.last + 1)
 

@@ -7,9 +7,11 @@ import io.reactivex.Completable
 import io.reactivex.Observable
 import work.syam.knockknock.data.model.User
 import work.syam.knockknock.data.repository.UserRepository
+import javax.inject.Singleton
 
 const val SP_USER_DATA = "SP_USER_DATA"
 
+@Singleton
 class SPUserRepositoryImpl(private val sharedPreferences: SharedPreferences) : UserRepository {
 
     override fun getUser(): Observable<User> {
