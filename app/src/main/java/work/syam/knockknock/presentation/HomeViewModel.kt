@@ -9,6 +9,7 @@ import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import org.jetbrains.annotations.VisibleForTesting
 import work.syam.knockknock.data.model.User
 import work.syam.knockknock.data.repository.UserRepository
 import work.syam.knockknock.di.ApiSource
@@ -22,6 +23,8 @@ const val USE_IN_MEMORY_DATA = "USE_IN_MEMORY_DATA"
 const val USE_ROOM_DATA = "USE_ROOM_DATA"
 const val USE_MIDDLEWARE_DATA = "USE_MIDDLEWARE_DATA"
 
+const val useDataFrom = USE_API_DATA
+
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle,
@@ -29,8 +32,6 @@ class HomeViewModel @Inject constructor(
     @SharedPreferenceSource private val spUserRepository: UserRepository,
     @RoomSource private val roomUserRepository: UserRepository,
 ) : ViewModel() {
-
-    val useDataFrom = USE_ROOM_DATA
 
     private val _userLiveData = MutableLiveData<UIState<User>>()
     val userLiveData: LiveData<UIState<User>> = _userLiveData

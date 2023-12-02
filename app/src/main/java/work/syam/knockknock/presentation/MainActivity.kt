@@ -65,7 +65,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun setUpButtonObserver() {
         binding.refreshButton.setOnClickListener {
-            if (homeViewModel?.useDataFrom == USE_IN_MEMORY_DATA) {
+            if (useDataFrom == USE_IN_MEMORY_DATA) {
                 showInMemoryUser()
             } else {
                 homeViewModel?.loadUserData()
