@@ -12,7 +12,8 @@ class FakeApiService @Inject constructor() : ApiServices {
     var wrongResponse: Boolean = false
 
     override fun getUser(): Observable<User> {
-        if (failUserApi) throw Exception("Api failed")
+        if (failUserApi) return Observable.error(Exception("Api failed"))
+
         val fakeResponse: User = JsonProvider.objectFromJsonFileWithType(USER_JSON)
 
         if (wrongResponse) return Observable.just(fakeResponse.copy(name = ""))
