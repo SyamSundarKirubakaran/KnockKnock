@@ -5,16 +5,16 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import io.reactivex.Completable
-import io.reactivex.Observable
+import io.reactivex.Flowable
 import work.syam.knockknock.data.model.UserRoom
 
 @Dao
 interface UserDao {
     @Query("SELECT * FROM USER_TABLE_ROOM WHERE id = :id")
-    fun getUserById(id: String): Observable<UserRoom>
+    fun getUserById(id: String): Flowable<UserRoom>
 
     @Query("SELECT * FROM USER_TABLE_ROOM")
-    fun getAllUsers(): Observable<List<UserRoom>>
+    fun getAllUsers(): Flowable<List<UserRoom>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertUser(user: UserRoom): Completable

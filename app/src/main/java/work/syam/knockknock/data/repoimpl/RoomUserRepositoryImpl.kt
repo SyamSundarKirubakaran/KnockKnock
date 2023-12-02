@@ -12,7 +12,8 @@ import javax.inject.Singleton
 class RoomUserRepositoryImpl(private val dao: UserDao) : UserRepository {
 
     override fun getUser(): Observable<User> {
-        return dao.getAllUsers().map { UserModelMapper.roomToUser(it.first()) }
+        // Just showing the first result
+        return dao.getAllUsers().map { UserModelMapper.roomToUser(it.first()) }.toObservable()
     }
 
     override fun setUser(user: User): Completable {
