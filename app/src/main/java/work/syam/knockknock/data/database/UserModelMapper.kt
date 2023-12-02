@@ -7,10 +7,10 @@ object UserModelMapper {
 
     fun userToRoom(user: User): UserRoom {
         return UserRoom(
+            id = user.id ?: -1,
             name = user.name.orEmpty(),
             avatarUrl = user.avatarUrl.orEmpty(),
             followers = user.followers ?: 0,
-            id = user.id ?: -1,
             location = user.location.orEmpty()
         )
     }
