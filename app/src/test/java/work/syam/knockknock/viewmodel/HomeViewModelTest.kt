@@ -20,6 +20,8 @@ import org.robolectric.Shadows
 import org.robolectric.annotation.Config
 import work.syam.knockknock.api.FakeApiService
 import work.syam.knockknock.data.repository.UserRepository
+import work.syam.knockknock.di.ApiSource
+import work.syam.knockknock.di.SharedPreferenceSource
 import work.syam.knockknock.presentation.model.UIState
 import work.syam.knockknock.presentation.viewmodel.HomeViewModel
 import work.syam.knockknock.util.TestState
@@ -34,8 +36,13 @@ class HomeViewModelTest {
     @get:Rule
     var hiltRule = HiltAndroidRule(this)
 
+    @ApiSource
     @Inject
-    lateinit var userRepository: UserRepository
+    lateinit var userApiRepository: UserRepository
+
+    @SharedPreferenceSource
+    @Inject
+    lateinit var userSPRepository: UserRepository
 
     @BindValue
     @JvmField
@@ -47,7 +54,7 @@ class HomeViewModelTest {
     @Before
     fun setup() {
         hiltRule.inject()
-        homeViewModel = HomeViewModel(SavedStateHandle(), userRepository)
+        homeViewModel = HomeViewModel(SavedStateHandle(), userApiRepository, userSPRepository)
         RxJavaPlugins.setIoSchedulerHandler { Schedulers.trampoline() }
         RxAndroidPlugins.setInitMainThreadSchedulerHandler { Schedulers.trampoline() }
     }
@@ -55,7 +62,7 @@ class HomeViewModelTest {
     @Test
     fun `test User data success`() {
         TestStateCondition.getUserState(TestState.Success, fakeApiService)
-        homeViewModel.loadUserData()
+        homeViewModel.loadUserDataFromApi()
         Shadows.shadowOf(Looper.getMainLooper()).idle()
         val value = homeViewModel.userLiveData.value
         Assert.assertTrue(value is UIState.Success)
@@ -67,7 +74,7 @@ class HomeViewModelTest {
     @Test
     fun `test User wrong data`() {
         TestStateCondition.getUserState(TestState.Wrong, fakeApiService)
-        homeViewModel.loadUserData()
+        homeViewModel.loadUserDataFromApi()
         Shadows.shadowOf(Looper.getMainLooper()).idle()
         val value = homeViewModel.userLiveData.value
         Assert.assertTrue(value is UIState.Success)
@@ -78,7 +85,7 @@ class HomeViewModelTest {
     @Test
     fun `test User data api failure`() {
         TestStateCondition.getUserState(TestState.Failure, fakeApiService)
-        homeViewModel.loadUserData()
+        homeViewModel.loadUserDataFromApi()
         Shadows.shadowOf(Looper.getMainLooper()).idle()
         val value = homeViewModel.userLiveData.value
         Assert.assertTrue(value is UIState.Error)
@@ -88,19 +95,19 @@ class HomeViewModelTest {
     @Test
     fun `repository test - getUser - success`() {
         TestStateCondition.getUserState(TestState.Success, fakeApiService)
-        userRepository.getUser().test().assertValue { user -> user.id == 26897680 }
+        userApiRepository.getUser().test().assertValue { user -> user.id == 26897680 }
     }
 
     @Test
     fun `repository test - getUser - failure`() {
         TestStateCondition.getUserState(TestState.Failure, fakeApiService)
-        userRepository.getUser().test().assertError { it.message == "Api failed" }
+        userApiRepository.getUser().test().assertError { it.message == "Api failed" }
     }
 
     @Test
     fun `repository test - getUser - incorrect`() {
         TestStateCondition.getUserState(TestState.Wrong, fakeApiService)
-        userRepository.getUser().test().assertValue { user -> user.name.isNullOrBlank() }
+        userApiRepository.getUser().test().assertValue { user -> user.name.isNullOrBlank() }
     }
 
 }
