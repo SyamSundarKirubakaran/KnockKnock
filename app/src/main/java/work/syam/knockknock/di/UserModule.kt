@@ -15,7 +15,7 @@ import work.syam.knockknock.data.sharedprefs.SPUserRepositoryImpl
 
 @InstallIn(SingletonComponent::class)
 @Module
-class AppRepoModule {
+class UserModule {
     @ApiSource
     @Provides
     fun providesApiRepository(apiServices: ApiServices): UserRepository =
