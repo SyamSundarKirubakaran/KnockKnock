@@ -85,6 +85,9 @@ dependencies {
     // fragment ktx
     implementation(libs.androidx.fragment.ktx)
 
+    // preference ktx
+    implementation(libs.androidx.preference.ktx)
+
     // picasso
     implementation(libs.squareup.picasso)
 

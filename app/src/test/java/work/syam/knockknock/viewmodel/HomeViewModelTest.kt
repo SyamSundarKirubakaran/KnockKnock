@@ -19,7 +19,7 @@ import org.robolectric.RobolectricTestRunner
 import org.robolectric.Shadows
 import org.robolectric.annotation.Config
 import work.syam.knockknock.api.FakeApiService
-import work.syam.knockknock.data.network.ApiRepository
+import work.syam.knockknock.data.repository.UserRepository
 import work.syam.knockknock.presentation.model.UIState
 import work.syam.knockknock.presentation.viewmodel.HomeViewModel
 import work.syam.knockknock.util.TestState
@@ -35,7 +35,7 @@ class HomeViewModelTest {
     var hiltRule = HiltAndroidRule(this)
 
     @Inject
-    lateinit var apiRepository: ApiRepository
+    lateinit var userRepository: UserRepository
 
     @BindValue
     @JvmField
@@ -47,7 +47,7 @@ class HomeViewModelTest {
     @Before
     fun setup() {
         hiltRule.inject()
-        homeViewModel = HomeViewModel(SavedStateHandle(), apiRepository)
+        homeViewModel = HomeViewModel(SavedStateHandle(), userRepository)
         RxJavaPlugins.setIoSchedulerHandler { Schedulers.trampoline() }
         RxAndroidPlugins.setInitMainThreadSchedulerHandler { Schedulers.trampoline() }
     }
@@ -88,19 +88,19 @@ class HomeViewModelTest {
     @Test
     fun `repository test - getUser - success`() {
         TestStateCondition.getUserState(TestState.Success, fakeApiService)
-        apiRepository.getUser().test().assertValue { user -> user.id == 26897680 }
+        userRepository.getUser().test().assertValue { user -> user.id == 26897680 }
     }
 
     @Test
     fun `repository test - getUser - failure`() {
         TestStateCondition.getUserState(TestState.Failure, fakeApiService)
-        apiRepository.getUser().test().assertError { it.message == "Api failed" }
+        userRepository.getUser().test().assertError { it.message == "Api failed" }
     }
 
     @Test
     fun `repository test - getUser - incorrect`() {
         TestStateCondition.getUserState(TestState.Wrong, fakeApiService)
-        apiRepository.getUser().test().assertValue { user -> user.name.isEmpty() }
+        userRepository.getUser().test().assertValue { user -> user.name.isNullOrBlank() }
     }
 
 }

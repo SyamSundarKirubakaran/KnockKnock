@@ -4,12 +4,12 @@ import com.google.gson.annotations.SerializedName
 
 data class User(
     @SerializedName("avatar_url")
-    val avatarUrl: String,
-    val followers: Int,
-    val id: Int,
-    val location: String,
-    val name: String,
+    val avatarUrl: String? = null,
+    val followers: Int? = null,
+    val id: Int? = null,
+    val location: String? = null,
+    val name: String? = null,
     @SerializedName("public_repos")
-    val publicRepos: Int,
-    val url: String
+    val publicRepos: Int? = null,
+    val url: String? = null
 )

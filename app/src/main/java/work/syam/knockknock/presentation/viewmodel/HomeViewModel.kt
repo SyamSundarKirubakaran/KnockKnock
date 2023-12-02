@@ -9,14 +9,15 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import work.syam.knockknock.data.model.User
-import work.syam.knockknock.data.network.ApiRepository
+import work.syam.knockknock.data.repository.UserRepository
+import work.syam.knockknock.di.ApiSource
 import work.syam.knockknock.presentation.model.UIState
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle,
-    private val apiRepository: ApiRepository
+    @ApiSource private val apiRepository: UserRepository
 ) : ViewModel() {
 
     private val _userLiveData = MutableLiveData<UIState<User>>()

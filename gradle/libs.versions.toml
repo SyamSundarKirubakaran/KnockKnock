@@ -28,6 +28,7 @@ rxjava3_version = "3.1.5"
 rxandroid3_version = "3.0.2"
 rxjava2_version = "2.2.21"
 rxandroid2_version = "2.1.1"
+preference_version = "1.2.1"
 
 [libraries]
 androidx-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "ktx_version" }
@@ -72,6 +73,7 @@ mockito-core = { group = "org.mockito", name = "mockito-core", version.ref = "mo
 mockito-android = { group = "org.mockito", name = "mockito-android", version.ref = "mockito_version" }
 roboelectric = { group = "org.robolectric", name = "robolectric", version.ref = "roboelectric_version" }
 kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "coroutines-test_version" }
+androidx-preference-ktx = { group = "androidx.preference", name = "preference-ktx", version.ref = "preference_version" }
 
 [plugins]
 org-jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "org-jetbrains-kotlin-android_version" }
