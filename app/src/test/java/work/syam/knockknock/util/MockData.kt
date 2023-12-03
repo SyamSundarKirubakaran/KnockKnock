@@ -1,4 +1,4 @@
-package work.syam.knockknock.presentation.util
+package work.syam.knockknock.util
 
 import work.syam.knockknock.data.model.User
 

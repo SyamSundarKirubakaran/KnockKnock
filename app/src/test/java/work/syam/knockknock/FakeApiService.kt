@@ -1,6 +1,9 @@
 package work.syam.knockknock
 
 import io.reactivex.Observable
+import work.syam.knockknock.TestScenario.Api.API_FAIL
+import work.syam.knockknock.TestScenario.Api.API_INCORRECT
+import work.syam.knockknock.TestScenario.Api.API_SUCCESS
 import work.syam.knockknock.util.JsonProvider
 import work.syam.knockknock.data.model.User
 import work.syam.knockknock.data.network.ApiServices
@@ -8,20 +11,27 @@ import javax.inject.Inject
 
 class FakeApiService @Inject constructor() : ApiServices {
 
-    var failUserApi: Boolean = false
-    var wrongResponse: Boolean = false
+    companion object {
+        private const val USER_JSON = "/json/user.json"
+        var apiScenario = API_SUCCESS
+    }
 
     override fun getUser(): Observable<User> {
-        if (failUserApi) return Observable.error(Exception("Api failed"))
 
         val fakeResponse: User = JsonProvider.objectFromJsonFileWithType(USER_JSON)
 
-        if (wrongResponse) return Observable.just(fakeResponse.copy(name = ""))
+        return when (apiScenario) {
+            API_SUCCESS -> {
+                Observable.just(fakeResponse)
+            }
 
-        return Observable.just(fakeResponse)
-    }
+            API_INCORRECT -> {
+                Observable.just(fakeResponse.copy(name = ""))
+            }
 
-    companion object {
-        private const val USER_JSON = "/json/user.json"
+            else -> { // API_FAIL
+                Observable.error(Exception("Intentional exception"))
+            }
+        }
     }
 }

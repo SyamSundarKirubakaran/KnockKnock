@@ -15,6 +15,14 @@ import org.junit.runner.RunWith
 import org.mockito.Mock
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
+import work.syam.knockknock.FakeApiService.Companion.apiScenario
+import work.syam.knockknock.FakeUserDao.Companion.roomScenario
+import work.syam.knockknock.TestScenario.Api.API_FAIL
+import work.syam.knockknock.TestScenario.Api.API_INCORRECT
+import work.syam.knockknock.TestScenario.Api.API_SUCCESS
+import work.syam.knockknock.TestScenario.Room.ROOM_EMPTY
+import work.syam.knockknock.TestScenario.Room.ROOM_FAIL
+import work.syam.knockknock.TestScenario.Room.ROOM_SUCCESS
 import work.syam.knockknock.data.repository.UserMiddleware
 import work.syam.knockknock.data.repository.UserRepository
 import work.syam.knockknock.di.ApiSource
@@ -22,8 +30,7 @@ import work.syam.knockknock.di.MiddlewareSource
 import work.syam.knockknock.di.RoomSource
 import work.syam.knockknock.di.SharedPreferenceSource
 import work.syam.knockknock.presentation.HomeViewModel
-import work.syam.knockknock.util.TestState
-import work.syam.knockknock.util.TestStateCondition
+import work.syam.knockknock.util.MockData
 import javax.inject.Inject
 
 @HiltAndroidTest
@@ -69,21 +76,53 @@ class UnitTests {
     }
 
     @Test
-    fun `repository test - getUser - success`() {
-        TestStateCondition.getUserState(TestState.Success, fakeApiService)
-        userApiRepository.getUser().test().assertValue { user -> user.id == 26897680 }
+    fun `api test - getUser - success`() {
+        apiScenario = API_SUCCESS
+        userApiRepository.getUser().test().assertValue { user ->
+            user.id == 26897680
+        }
     }
 
     @Test
-    fun `repository test - getUser - failure`() {
-        TestStateCondition.getUserState(TestState.Failure, fakeApiService)
-        userApiRepository.getUser().test().assertError { it.message == "Api failed" }
+    fun `api test - getUser - failure`() {
+        apiScenario = API_FAIL
+        userApiRepository.getUser().test().assertError {
+            it.message == "Intentional exception"
+        }
     }
 
     @Test
-    fun `repository test - getUser - incorrect`() {
-        TestStateCondition.getUserState(TestState.Wrong, fakeApiService)
-        userApiRepository.getUser().test().assertValue { user -> user.name.isNullOrBlank() }
+    fun `api test - getUser - incorrect`() {
+        apiScenario = API_INCORRECT
+        userApiRepository.getUser().test().assertValue { user ->
+            user.name.isNullOrBlank()
+        }
+    }
+
+    // we don't have setUser in ApiService
+
+    @Test
+    fun `room test - getUser - success`() {
+        roomScenario = ROOM_SUCCESS
+        userRoomRepository.getUser().test().assertValue {
+            it.name == MockData.user1.name
+        }.assertValue {
+            it.id == MockData.user1.id
+        }
+    }
+
+    @Test
+    fun `room test - getUser - empty`() {
+        roomScenario = ROOM_EMPTY
+        userRoomRepository.getUser().test().assertNoValues()
+    }
+
+    @Test
+    fun `room test - getUser - fail`() {
+        roomScenario = ROOM_FAIL
+        userRoomRepository.getUser().test().assertError {
+            it.message == "Intentional exception"
+        }
     }
 
 }
