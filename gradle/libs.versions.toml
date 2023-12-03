@@ -30,6 +30,7 @@ rxjava2_version = "2.2.21"
 rxandroid2_version = "2.1.1"
 preference_version = "1.2.1"
 room_version = "2.6.1"
+swiperefreshlayout_version = "1.2.0-alpha01"
 
 [libraries]
 androidx-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "ktx_version" }
@@ -81,6 +82,7 @@ androidx-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = 
 androidx-room-paging = { group = "androidx.room", name = "room-paging", version.ref = "room_version" }
 androidx-room-rxjava2 = { group = "androidx.room", name = "room-rxjava2", version.ref = "room_version" }
 androidx-room-testing = { group = "androidx.room", name = "room-testing", version.ref = "room_version" }
+androidx-swiperefreshlayout = { group = "androidx.swiperefreshlayout", name = "swiperefreshlayout", version.ref = "swiperefreshlayout_version" }
 
 [plugins]
 org-jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "org-jetbrains-kotlin-android_version" }
