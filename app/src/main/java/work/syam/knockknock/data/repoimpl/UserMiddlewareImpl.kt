@@ -12,6 +12,7 @@ import work.syam.knockknock.data.repository.UserRepository
 import work.syam.knockknock.di.ApiSource
 import work.syam.knockknock.di.RoomSource
 import work.syam.knockknock.presentation.UIState
+import work.syam.knockknock.presentation.util.retryWhenError
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -72,6 +73,7 @@ class UserMiddlewareImpl @Inject constructor(
             apiUserRepository.getUser()
                 .subscribeOn(Schedulers.io())
                 .concatMap { writeToLocalStore(it) }
+                .retryWhenError(2, 2)
                 .map { UIState.Success(it) as UIState<User> }
                 .filter { it is UIState.Success }
                 .startWith(UIState.Loading<User>() as UIState<User>)

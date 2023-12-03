@@ -1,7 +1,6 @@
 package work.syam.knockknock.di
 
 import android.content.SharedPreferences
-import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
