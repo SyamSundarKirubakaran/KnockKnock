@@ -5,4 +5,6 @@
     <string name="refresh">Refresh</string>
     <string name="set_user">Set User</string>
     <string name="drop_user">Drop User</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

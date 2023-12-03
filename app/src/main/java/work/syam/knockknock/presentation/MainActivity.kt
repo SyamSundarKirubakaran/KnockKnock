@@ -32,6 +32,16 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         observeDataChanges()
         setUpButtonObserver()
+        sampleInflateDiFragment()
+    }
+
+    private fun sampleInflateDiFragment() {
+        supportFragmentManager.beginTransaction()
+            .replace(
+                R.id.fragFrameHolder,
+                DIFragment.newInstance()
+            )
+            .commit()
     }
 
     private fun setUpButtonObserver() {

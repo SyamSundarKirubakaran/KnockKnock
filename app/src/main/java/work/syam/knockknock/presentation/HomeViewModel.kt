@@ -28,6 +28,7 @@ class HomeViewModel @Inject constructor(
     init {
         disposable.add(
             userMiddleware.getEventStream()
+                .distinctUntilChanged()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe { _userLiveData.postValue(it) }

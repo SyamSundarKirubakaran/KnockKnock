@@ -12,6 +12,7 @@ import work.syam.knockknock.data.repository.UserRepository
 import work.syam.knockknock.di.ApiSource
 import work.syam.knockknock.di.RoomSource
 import work.syam.knockknock.presentation.UIState
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 @ViewModelScoped
@@ -24,34 +25,33 @@ class UserMiddlewareImpl @Inject constructor(
 
     private val eventStream: PublishSubject<UIState<User>> = PublishSubject.create()
 
+    // default state loading because I'm calling getUser() on init
+    @Volatile
+    private var _eventStreamVal: UIState<User> = UIState.Loading()
+
     private val localReadRoomStream: PublishSubject<Unit> = PublishSubject.create()
+
+    private val nwErrorStream: PublishSubject<UIState<User>> = PublishSubject.create()
 
     private val disposable = CompositeDisposable()
 
     init {
-        initLocalStream()
+        initObservers()
         getUser()
     }
 
-    override fun getEventStream(): PublishSubject<UIState<User>> = eventStream
-
-    private fun invokeLocalRead() {
-        localReadRoomStream.onNext(Unit)
-    }
-
-    private fun postSuccess(user: User) {
-        eventStream.onNext(UIState.Success<User>(user))
-    }
-
-    private fun throwError(t: Throwable) {
-        eventStream.onNext(UIState.Error<User>(message = t.message))
-    }
-
-    private fun initLocalStream() {
-        disposable.add(
+    private fun initObservers() {
+        disposable.addAll(
             localReadRoomStream
                 .subscribeOn(Schedulers.io())
-                .subscribe { getUserFromLocalStore() }
+                .subscribe { getUserFromLocalStore() },
+            nwErrorStream
+                .debounce(5, TimeUnit.SECONDS)
+                // it might be loading for some other updates -> make this robust -> use request ID
+                .filter { it == _eventStreamVal || _eventStreamVal is UIState.Loading }
+                .subscribeOn(Schedulers.io())
+                .subscribe { postState(it) },
+            eventStream.subscribeOn(Schedulers.io()).subscribe { _eventStreamVal = it }
         )
     }
 
@@ -59,9 +59,11 @@ class UserMiddlewareImpl @Inject constructor(
         disposable.add(
             roomUserRepository.getUser()
                 .subscribeOn(Schedulers.io())
-                .distinctUntilChanged()
                 .doOnError { throwError(it) }
-                .subscribe { postSuccess(it) }
+                .subscribe {
+                    postSuccess(it)
+                    Log.d(UserMiddlewareImpl::class.java.simpleName, "Read from Local Store")
+                }
         )
     }
 
@@ -73,11 +75,12 @@ class UserMiddlewareImpl @Inject constructor(
                 .map { UIState.Success(it) as UIState<User> }
                 .filter { it is UIState.Success }
                 .startWith(UIState.Loading<User>() as UIState<User>)
-                .onErrorReturn {
-                    invokeLocalRead()
-                    UIState.Error<User>(message = it.message)
-                }
-                .subscribe { eventStream.onNext(it) }
+                .subscribe({
+                    eventStream.onNext(it)
+                }, {
+                    localReadRoomStream.onNext(Unit)
+                    nwErrorStream.onNext(UIState.Error<User>(message = it.message))
+                })
         )
     }
 
@@ -86,7 +89,7 @@ class UserMiddlewareImpl @Inject constructor(
             .subscribeOn(Schedulers.io())
             .doOnError { throwError(it) }
             .doOnComplete {
-                invokeLocalRead()
+                localReadRoomStream.onNext(Unit)
                 Log.d(UserMiddlewareImpl::class.java.simpleName, "Written to Local Store")
             }
             .toObservable()
@@ -95,8 +98,24 @@ class UserMiddlewareImpl @Inject constructor(
     override fun setUser(user: User) {
 
     }
+
     override fun dropUser() {
 
+    }
+
+    override fun getEventStream(): PublishSubject<UIState<User>> = eventStream
+
+    private fun postState(state: UIState<User>) {
+        eventStream.onNext(state)
+    }
+
+    private fun postSuccess(user: User) {
+        eventStream.onNext(UIState.Success<User>(user))
+    }
+
+    private fun throwError(t: Throwable) {
+        // nwErrorStream also throws Error
+        eventStream.onNext(UIState.Error<User>(message = t.message))
     }
 
     override fun cleanup() {
