@@ -12,7 +12,6 @@ import work.syam.knockknock.data.model.User
 import work.syam.knockknock.data.repository.UserRepository
 import work.syam.knockknock.databinding.ActivityMainBinding
 import work.syam.knockknock.di.InMemorySource
-import work.syam.knockknock.presentation.util.MockData
 import work.syam.knockknock.presentation.util.safe
 import work.syam.knockknock.presentation.util.shortToast
 import javax.inject.Inject
@@ -22,13 +21,9 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
-    private val homeViewModel: HomeViewModel? by viewModels()
+    private val viewModel: HomeViewModel by viewModels()
 
     private val compositeDisposable = CompositeDisposable()
-
-    @InMemorySource
-    @Inject
-    lateinit var inMemoryDataSource: UserRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,45 +31,16 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         observeDataChanges()
         setUpButtonObserver()
-        performDataLoad()
-    }
-
-    private fun performDataLoad() {
-        homeViewModel?.apply {
-            when (useDataFrom) {
-                USE_API_DATA -> {
-                    loadUserData()
-                }
-
-                USE_SP_DATA -> {
-                    setUserDataSP(user = MockData.user1)
-                }
-
-                USE_IN_MEMORY_DATA -> {
-                    setAndShowFromMemory(user = MockData.user2)
-                }
-
-                USE_ROOM_DATA -> {
-                    setUserDataRoom(user = MockData.user3)
-                }
-
-                USE_MIDDLEWARE_DATA -> {}
-            }
-        }
     }
 
     private fun setUpButtonObserver() {
         binding.refreshButton.setOnClickListener {
-            if (useDataFrom == USE_IN_MEMORY_DATA) {
-                showInMemoryUser()
-            } else {
-                homeViewModel?.loadUserData()
-            }
+            viewModel.loadUserData()
         }
     }
 
     private fun observeDataChanges() {
-        homeViewModel?.userLiveData?.observe(this@MainActivity) { state ->
+        viewModel.userLiveData.observe(this@MainActivity) { state ->
             if (state is UIState.Success) {
                 state.data?.let { updateUI(it) }
             }
@@ -105,27 +71,6 @@ class MainActivity : AppCompatActivity() {
                 .placeholder(R.drawable.ic_launcher_background)
                 .into(image)
         }
-    }
-
-    private fun showInMemoryUser() {
-        compositeDisposable.add(
-            // TODO: Did not check for getUser Failures
-            inMemoryDataSource.getUser()
-                .subscribe { homeViewModel?.showUserDataInMemo(it) }
-        )
-    }
-
-    private fun setAndShowFromMemory(user: User) {
-        if (lifecycle.safe())
-            compositeDisposable.add(
-                inMemoryDataSource.setUser(user = user)
-                    .onErrorComplete {
-                        shortToast("Error writing and getting to in-memory store")
-                        false
-                    }.andThen {
-                        showInMemoryUser()
-                    }.subscribe()
-            )
     }
 
     override fun onDestroy() {

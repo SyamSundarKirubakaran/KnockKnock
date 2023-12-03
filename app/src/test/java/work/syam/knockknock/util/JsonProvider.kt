@@ -1,4 +1,4 @@
-package work.syam.knockknock
+package work.syam.knockknock.util
 
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken

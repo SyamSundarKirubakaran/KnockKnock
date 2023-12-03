@@ -1,7 +1,7 @@
-package work.syam.knockknock.api
+package work.syam.knockknock
 
 import io.reactivex.Observable
-import work.syam.knockknock.JsonProvider
+import work.syam.knockknock.util.JsonProvider
 import work.syam.knockknock.data.model.User
 import work.syam.knockknock.data.network.ApiServices
 import javax.inject.Inject

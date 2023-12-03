@@ -1,6 +1,8 @@
 package work.syam.knockknock.util
 
-import work.syam.knockknock.api.FakeApiService
+import work.syam.knockknock.FakeApiService
+
+const val USER_TEST_DB_NAME = "UserTest.db"
 
 object TestStateCondition {
 

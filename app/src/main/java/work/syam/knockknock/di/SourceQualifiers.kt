@@ -13,3 +13,6 @@ annotation class InMemorySource
 
 @Qualifier
 annotation class RoomSource
+
+@Qualifier
+annotation class MiddlewareSource
