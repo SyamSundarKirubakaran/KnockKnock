@@ -132,6 +132,8 @@ dependencies {
     testImplementation(libs.dagger.hilt.android.testing)
     kaptTest(libs.dagger.hilt.android.compiler)
 
+    // mockk
+//    testImplementation(libs.mockk)
 
     // mockito
     testImplementation(libs.mockito.core)

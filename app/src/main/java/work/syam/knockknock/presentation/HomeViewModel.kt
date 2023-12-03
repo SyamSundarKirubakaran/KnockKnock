@@ -42,6 +42,10 @@ class HomeViewModel @Inject constructor(
         userMiddleware.setUser(user = user)
     }
 
+    fun dropUserData() {
+        userMiddleware.dropUser()
+    }
+
     override fun onCleared() {
         super.onCleared()
         userMiddleware.cleanup()

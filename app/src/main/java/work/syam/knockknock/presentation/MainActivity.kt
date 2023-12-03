@@ -12,6 +12,7 @@ import work.syam.knockknock.data.model.User
 import work.syam.knockknock.data.repository.UserRepository
 import work.syam.knockknock.databinding.ActivityMainBinding
 import work.syam.knockknock.di.InMemorySource
+import work.syam.knockknock.presentation.util.MockData
 import work.syam.knockknock.presentation.util.safe
 import work.syam.knockknock.presentation.util.shortToast
 import javax.inject.Inject
@@ -37,6 +38,12 @@ class MainActivity : AppCompatActivity() {
         binding.refreshButton.setOnClickListener {
             viewModel.loadUserData()
         }
+        binding.setUserBtn.setOnClickListener {
+            viewModel.setUserData(user = MockData.user4)
+        }
+        binding.dropUserBtn.setOnClickListener {
+            viewModel.dropUserData()
+        }
     }
 
     private fun observeDataChanges() {
@@ -56,7 +63,10 @@ class MainActivity : AppCompatActivity() {
             when (uiState) {
                 is UIState.Loading -> progress.visibility = View.VISIBLE
                 is UIState.Success -> success.visibility = View.VISIBLE
-                is UIState.Error -> failure.visibility = View.VISIBLE
+                is UIState.Error -> {
+                    failure.visibility = View.VISIBLE
+                    errorMessage.text = uiState.error
+                }
             }
         }
     }

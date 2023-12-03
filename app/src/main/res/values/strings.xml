@@ -3,4 +3,6 @@
     <string name="error_message">Something went wrong!</string>
     <string name="followers">Followers: %d</string>
     <string name="refresh">Refresh</string>
+    <string name="set_user">Set User</string>
+    <string name="drop_user">Drop User</string>
 </resources>

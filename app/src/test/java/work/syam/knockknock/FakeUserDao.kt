@@ -7,7 +7,7 @@ import work.syam.knockknock.TestScenario.Room.ROOM_SUCCESS
 import work.syam.knockknock.data.database.UserDao
 import work.syam.knockknock.data.database.UserModelMapper
 import work.syam.knockknock.data.model.UserRoom
-import work.syam.knockknock.util.MockData
+import work.syam.knockknock.util.TestMockData
 import javax.inject.Inject
 
 class FakeUserDao @Inject constructor() : UserDao {
@@ -21,7 +21,7 @@ class FakeUserDao @Inject constructor() : UserDao {
     override fun getUserById(id: String): Flowable<UserRoom> {
         return when (roomScenario) {
             ROOM_SUCCESS -> {
-                Flowable.just(UserModelMapper.userToRoom(MockData.user1))
+                Flowable.just(UserModelMapper.userToRoom(TestMockData.user1))
             }
 
             ROOM_EMPTY -> {
@@ -40,9 +40,9 @@ class FakeUserDao @Inject constructor() : UserDao {
             ROOM_SUCCESS -> {
                 Flowable.just(
                     listOf(
-                        UserModelMapper.userToRoom(MockData.user1),
-                        UserModelMapper.userToRoom(MockData.user2),
-                        UserModelMapper.userToRoom(MockData.user3)
+                        UserModelMapper.userToRoom(TestMockData.user1),
+                        UserModelMapper.userToRoom(TestMockData.user2),
+                        UserModelMapper.userToRoom(TestMockData.user3)
                     )
                 )
             }

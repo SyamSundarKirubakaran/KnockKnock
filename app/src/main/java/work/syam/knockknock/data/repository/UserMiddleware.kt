@@ -8,5 +8,6 @@ interface UserMiddleware {
     fun getEventStream(): PublishSubject<UIState<User>>
     fun getUser()
     fun setUser(user: User)
+    fun dropUser()
     fun cleanup()
 }

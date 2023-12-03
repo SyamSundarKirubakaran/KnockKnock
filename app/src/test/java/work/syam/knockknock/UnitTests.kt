@@ -30,7 +30,7 @@ import work.syam.knockknock.di.MiddlewareSource
 import work.syam.knockknock.di.RoomSource
 import work.syam.knockknock.di.SharedPreferenceSource
 import work.syam.knockknock.presentation.HomeViewModel
-import work.syam.knockknock.util.MockData
+import work.syam.knockknock.util.TestMockData
 import javax.inject.Inject
 
 @HiltAndroidTest
@@ -105,15 +105,16 @@ class UnitTests {
     fun `room test - getUser - success`() {
         roomScenario = ROOM_SUCCESS
         userRoomRepository.getUser().test().assertValue {
-            it.name == MockData.user1.name
+            it.name == TestMockData.user1.name
         }.assertValue {
-            it.id == MockData.user1.id
+            it.id == TestMockData.user1.id
         }
     }
 
     @Test
     fun `room test - getUser - empty`() {
         roomScenario = ROOM_EMPTY
+//        database.userDao().insertUser(USER).blockingAwait()
         userRoomRepository.getUser().test().assertNoValues()
     }
 
