@@ -9,7 +9,7 @@ import work.syam.knockknock.data.model.User
 
 interface ApiServices {
 
-    @GET("/users/pjhyett")
+    @GET("/users/SyamSundarKirubakaran")
     fun getUser(): Observable<User>
 
     companion object Factory {

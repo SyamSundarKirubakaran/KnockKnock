@@ -93,44 +93,50 @@ class UserMiddlewareImpl @Inject constructor(
     }
 
     override fun setUser(user: User) {
-        // dropping DB before setting User - as I read only the first User on `getUser`
-        disposable.add(
-            roomUserRepository.clearRepository()
-                .subscribeOn(Schedulers.io())
-                .subscribe({ setUserAPI(user = user) }, { throwError(it) })
-        )
-    }
 
-    private fun setUserAPI(user: User) {
-//        val rList = listOf(apiUserRepository.setUser(user), roomUserRepository.setUser(user))
-        disposable.add(
-//            Completable.concat(rList)
-            apiUserRepository.setUser(user)
-                .subscribeOn(Schedulers.io())
-                .subscribe({ setUserRoom(user) }, { throwError(it) })
-        )
     }
-
-    private fun setUserRoom(user: User) {
-        disposable.add(
-            roomUserRepository.setUser(user)
-                .subscribeOn(Schedulers.io())
-                .doOnError { throwError(it) }
-                .subscribe({ invokeLocalRead() }, { throwError(it) })
-        )
-    }
-
     override fun dropUser() {
-        disposable.add(
-            roomUserRepository.clearRepository()
-                .subscribeOn(Schedulers.io())
-                .subscribe({ invokeLocalRead() }, { throwError(it) })
-        )
+
     }
 
     override fun cleanup() {
         disposable.dispose()
         eventStream.onComplete()
     }
+
+//    override fun setUser(user: User) {
+////        dropping DB before setting User - as I read only the first User on `getUser`
+//        disposable.add(
+//            roomUserRepository.clearRepository()
+//                .subscribeOn(Schedulers.io())
+//                .subscribe({ setUserAPI(user = user) }, { throwError(it) })
+//        )
+//    }
+
+//    private fun setUserAPI(user: User) {
+////        val rList = listOf(apiUserRepository.setUser(user), roomUserRepository.setUser(user))
+//        disposable.add(
+////            Completable.concat(rList)
+//            apiUserRepository.setUser(user)
+//                .subscribeOn(Schedulers.io())
+//                .subscribe({ setUserRoom(user) }, { throwError(it) })
+//        )
+//    }
+
+//    private fun setUserRoom(user: User) {
+//        disposable.add(
+//            roomUserRepository.setUser(user)
+//                .subscribeOn(Schedulers.io())
+//                .doOnError { throwError(it) }
+//                .subscribe({ invokeLocalRead() }, { throwError(it) })
+//        )
+//    }
+
+
+//        disposable.add(
+//            roomUserRepository.clearRepository()
+//                .subscribeOn(Schedulers.io())
+//                .subscribe({ invokeLocalRead() }, { throwError(it) })
+//        )
 
 }
