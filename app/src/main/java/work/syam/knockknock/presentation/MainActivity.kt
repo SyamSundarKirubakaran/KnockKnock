@@ -1,7 +1,12 @@
 package work.syam.knockknock.presentation
 
+import android.net.ConnectivityManager
+import android.net.Network
+import android.net.NetworkCapabilities
+import android.net.NetworkRequest
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.squareup.picasso.Picasso
@@ -11,6 +16,8 @@ import work.syam.knockknock.R
 import work.syam.knockknock.data.model.User
 import work.syam.knockknock.databinding.ActivityMainBinding
 import work.syam.knockknock.presentation.util.MockData
+import work.syam.knockknock.presentation.util.shortToast
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -21,6 +28,12 @@ class MainActivity : AppCompatActivity() {
 
     private val compositeDisposable = CompositeDisposable()
 
+    @Inject
+    lateinit var connectivityManager: ConnectivityManager
+
+    @Inject
+    lateinit var networkRequest: NetworkRequest
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -28,6 +41,8 @@ class MainActivity : AppCompatActivity() {
         observeDataChanges()
         setUpButtonObserver()
         sampleInflateDiFragment()
+
+        connectivityManager.requestNetwork(networkRequest, networkCallback)
     }
 
     private fun sampleInflateDiFragment() {
@@ -72,7 +87,6 @@ class MainActivity : AppCompatActivity() {
                     failure.visibility = View.VISIBLE
                     errorMessage.text = uiState.error
                 }
-                else -> {}
             }
         }
     }
@@ -86,6 +100,20 @@ class MainActivity : AppCompatActivity() {
                 .load(user.avatarUrl)
                 .placeholder(R.drawable.ic_launcher_background)
                 .into(image)
+        }
+    }
+
+    private val networkCallback = object : ConnectivityManager.NetworkCallback() {
+        // network is available for use
+        override fun onAvailable(network: Network) {
+            super.onAvailable(network)
+            shortToast("NW Available!")
+        }
+
+        // lost network connection
+        override fun onLost(network: Network) {
+            super.onLost(network)
+            shortToast("NW Lost!")
         }
     }
 
