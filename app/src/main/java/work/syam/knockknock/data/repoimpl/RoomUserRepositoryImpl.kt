@@ -25,4 +25,6 @@ class RoomUserRepositoryImpl(private val dao: UserDao) : UserRepository {
 
     override fun clearRepository() = dao.deleteAllUsers()
 
+//    throw UnsupportedOperationException("Only reading operations are allowed")
+
 }
