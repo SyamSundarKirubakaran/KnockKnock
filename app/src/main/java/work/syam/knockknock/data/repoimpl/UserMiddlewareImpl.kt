@@ -125,6 +125,14 @@ class UserMiddlewareImpl @Inject constructor(
         eventStream.onComplete()
     }
 
+//    TweetService.Creator.service.getTweets(token = "Bearer $token")
+//    .subscribeOn(Schedulers.io())
+//    .observeOn(AndroidSchedulers.mainThread())
+//    .map { HomeCallState.Success(it) as HomeCallState }
+//    .startWith(HomeCallState.InFlight as HomeCallState)
+//    .onErrorReturn { HomeCallState.Failed }
+//    .subscribe { tweetListLiveData.postValue(it) }
+
 //    override fun setUser(user: User) {
 ////        dropping DB before setting User - as I read only the first User on `getUser`
 //        disposable.add(

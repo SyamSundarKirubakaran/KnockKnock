@@ -9,13 +9,8 @@ import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.disposables.CompositeDisposable
 import work.syam.knockknock.R
 import work.syam.knockknock.data.model.User
-import work.syam.knockknock.data.repository.UserRepository
 import work.syam.knockknock.databinding.ActivityMainBinding
-import work.syam.knockknock.di.InMemorySource
 import work.syam.knockknock.presentation.util.MockData
-import work.syam.knockknock.presentation.util.safe
-import work.syam.knockknock.presentation.util.shortToast
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -77,6 +72,7 @@ class MainActivity : AppCompatActivity() {
                     failure.visibility = View.VISIBLE
                     errorMessage.text = uiState.error
                 }
+                else -> {}
             }
         }
     }

@@ -113,11 +113,11 @@ dependencies {
     implementation(libs.reactivex.rxjava)
     implementation(libs.reactivex.rxandroid)
 
-    // coroutines
-    implementation(libs.kotlinx.coroutines)
-
-    // custom test runners
-    implementation(libs.androidx.test.runner)
+//    // coroutines
+//    implementation(libs.kotlinx.coroutines)
+//
+//    // custom test runners
+//    implementation(libs.androidx.test.runner)
 
     /////// test dependencies
 

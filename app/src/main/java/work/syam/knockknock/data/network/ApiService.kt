@@ -16,3 +16,24 @@ interface ApiServices {
         fun create(retrofit: Retrofit): ApiServices = retrofit.create(ApiServices::class.java)
     }
 }
+
+//@Headers("Accept: application/json", "content-type: application/json")
+//@GET("tweet")
+//fun getTweets(
+//    @Header("Authorization") token: String
+//): Observable<TweetResult>
+//
+//@Headers("Accept: application/json", "content-type: application/json")
+//@PATCH("tweet/{tweetId}")
+//fun updateTweet(
+//    @Header("Authorization") token: String,
+//    @Path("tweetId") tweetId: String,
+//    @Body body: UpdateTweet
+//): Observable<Void>
+//
+//@Headers("Accept: application/json", "content-type: application/json")
+//@POST("tweet")
+//fun createTweet(
+//    @Header("Authorization") token: String,
+//    @Body body: CreateTweet
+//): Observable<Void>
