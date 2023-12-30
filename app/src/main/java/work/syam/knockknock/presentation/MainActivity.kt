@@ -1,7 +1,12 @@
 package work.syam.knockknock.presentation
 
+import android.net.ConnectivityManager
+import android.net.Network
+import android.net.NetworkCapabilities
+import android.net.NetworkRequest
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.squareup.picasso.Picasso
@@ -9,11 +14,8 @@ import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.disposables.CompositeDisposable
 import work.syam.knockknock.R
 import work.syam.knockknock.data.model.User
-import work.syam.knockknock.data.repository.UserRepository
 import work.syam.knockknock.databinding.ActivityMainBinding
-import work.syam.knockknock.di.InMemorySource
 import work.syam.knockknock.presentation.util.MockData
-import work.syam.knockknock.presentation.util.safe
 import work.syam.knockknock.presentation.util.shortToast
 import javax.inject.Inject
 
@@ -22,13 +24,15 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
-    private val homeViewModel: HomeViewModel? by viewModels()
+    private val viewModel: HomeViewModel by viewModels()
 
     private val compositeDisposable = CompositeDisposable()
 
-    @InMemorySource
     @Inject
-    lateinit var inMemoryDataSource: UserRepository
+    lateinit var connectivityManager: ConnectivityManager
+
+    @Inject
+    lateinit var networkRequest: NetworkRequest
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,45 +40,34 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         observeDataChanges()
         setUpButtonObserver()
-        performDataLoad()
+        sampleInflateDiFragment()
+
+        connectivityManager.requestNetwork(networkRequest, networkCallback)
     }
 
-    private fun performDataLoad() {
-        homeViewModel?.apply {
-            when (useDataFrom) {
-                USE_API_DATA -> {
-                    loadUserData()
-                }
-
-                USE_SP_DATA -> {
-                    setUserDataSP(user = MockData.user1)
-                }
-
-                USE_IN_MEMORY_DATA -> {
-                    setAndShowFromMemory(user = MockData.user2)
-                }
-
-                USE_ROOM_DATA -> {
-                    setUserDataRoom(user = MockData.user3)
-                }
-
-                USE_MIDDLEWARE_DATA -> {}
-            }
-        }
+    private fun sampleInflateDiFragment() {
+        supportFragmentManager.beginTransaction()
+            .replace(
+                R.id.fragFrameHolder,
+                DIFragment.newInstance()
+            )
+            .commit()
     }
 
     private fun setUpButtonObserver() {
         binding.refreshButton.setOnClickListener {
-            if (useDataFrom == USE_IN_MEMORY_DATA) {
-                showInMemoryUser()
-            } else {
-                homeViewModel?.loadUserData()
-            }
+            viewModel.loadUserData()
+        }
+        binding.setUserBtn.setOnClickListener {
+            viewModel.setUserData(user = MockData.user4)
+        }
+        binding.dropUserBtn.setOnClickListener {
+            viewModel.dropUserData()
         }
     }
 
     private fun observeDataChanges() {
-        homeViewModel?.userLiveData?.observe(this@MainActivity) { state ->
+        viewModel.userLiveData.observe(this@MainActivity) { state ->
             if (state is UIState.Success) {
                 state.data?.let { updateUI(it) }
             }
@@ -90,7 +83,10 @@ class MainActivity : AppCompatActivity() {
             when (uiState) {
                 is UIState.Loading -> progress.visibility = View.VISIBLE
                 is UIState.Success -> success.visibility = View.VISIBLE
-                is UIState.Error -> failure.visibility = View.VISIBLE
+                is UIState.Error -> {
+                    failure.visibility = View.VISIBLE
+                    errorMessage.text = uiState.error
+                }
             }
         }
     }
@@ -107,25 +103,18 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun showInMemoryUser() {
-        compositeDisposable.add(
-            // TODO: Did not check for getUser Failures
-            inMemoryDataSource.getUser()
-                .subscribe { homeViewModel?.showUserDataInMemo(it) }
-        )
-    }
+    private val networkCallback = object : ConnectivityManager.NetworkCallback() {
+        // network is available for use
+        override fun onAvailable(network: Network) {
+            super.onAvailable(network)
+            shortToast("NW Available!")
+        }
 
-    private fun setAndShowFromMemory(user: User) {
-        if (lifecycle.safe())
-            compositeDisposable.add(
-                inMemoryDataSource.setUser(user = user)
-                    .onErrorComplete {
-                        shortToast("Error writing and getting to in-memory store")
-                        false
-                    }.andThen {
-                        showInMemoryUser()
-                    }.subscribe()
-            )
+        // lost network connection
+        override fun onLost(network: Network) {
+            super.onLost(network)
+            shortToast("NW Lost!")
+        }
     }
 
     override fun onDestroy() {

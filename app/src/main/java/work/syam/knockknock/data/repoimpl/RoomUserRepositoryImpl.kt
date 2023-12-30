@@ -13,7 +13,10 @@ class RoomUserRepositoryImpl(private val dao: UserDao) : UserRepository {
 
     override fun getUser(): Observable<User> {
         // Just showing the first result
-        return dao.getAllUsers().map { UserModelMapper.roomToUser(it.first()) }.toObservable()
+        return dao.getAllUsers()
+            .filter { it.isNotEmpty() }
+            .map { UserModelMapper.roomToUser(it.first()) }
+            .toObservable()
     }
 
     override fun setUser(user: User): Completable {
@@ -21,5 +24,7 @@ class RoomUserRepositoryImpl(private val dao: UserDao) : UserRepository {
     }
 
     override fun clearRepository() = dao.deleteAllUsers()
+
+//    throw UnsupportedOperationException("Only reading operations are allowed")
 
 }

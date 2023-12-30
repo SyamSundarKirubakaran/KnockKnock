@@ -1,25 +1,19 @@
 package work.syam.knockknock.di
 
-import android.content.Context
 import android.content.SharedPreferences
-import androidx.room.Room
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.qualifiers.ApplicationContext
-import dagger.hilt.android.scopes.ActivityScoped
 import dagger.hilt.components.SingletonComponent
-import retrofit2.Retrofit
-import work.syam.knockknock.data.database.USER_DB_NAME
 import work.syam.knockknock.data.database.UserDao
-import work.syam.knockknock.data.database.UserDatabase
-import work.syam.knockknock.data.repoimpl.InMemoryUserRepositoryImpl
 import work.syam.knockknock.data.network.ApiServices
 import work.syam.knockknock.data.repoimpl.ApiUserRepositoryImpl
+import work.syam.knockknock.data.repoimpl.InMemoryUserRepositoryImpl
 import work.syam.knockknock.data.repoimpl.RoomUserRepositoryImpl
-import work.syam.knockknock.data.repository.UserRepository
 import work.syam.knockknock.data.repoimpl.SPUserRepositoryImpl
-import javax.inject.Singleton
+import work.syam.knockknock.data.repoimpl.UserMiddlewareImpl
+import work.syam.knockknock.data.repository.UserMiddleware
+import work.syam.knockknock.data.repository.UserRepository
 
 @InstallIn(SingletonComponent::class)
 @Module
@@ -36,9 +30,18 @@ object UserModule {
 
     @InMemorySource
     @Provides
-    fun providesInMemoryRepository(): UserRepository = InMemoryUserRepositoryImpl()
+    fun providesInMemoryRepository(): UserRepository =
+        InMemoryUserRepositoryImpl()
 
     @RoomSource
     @Provides
-    fun providesRoomRepository(userDao: UserDao): UserRepository = RoomUserRepositoryImpl(userDao)
+    fun providesRoomRepository(userDao: UserDao): UserRepository =
+        RoomUserRepositoryImpl(userDao)
+
+    @MiddlewareSource
+    @Provides
+    fun providesMiddleware(
+        @ApiSource apiRepository: UserRepository,
+        @RoomSource roomRepository: UserRepository
+    ): UserMiddleware = UserMiddlewareImpl(apiRepository, roomRepository)
 }

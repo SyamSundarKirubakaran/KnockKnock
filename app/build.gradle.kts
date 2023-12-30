@@ -113,11 +113,11 @@ dependencies {
     implementation(libs.reactivex.rxjava)
     implementation(libs.reactivex.rxandroid)
 
-    // coroutines
-    implementation(libs.kotlinx.coroutines)
-
-    // custom test runners
-    implementation(libs.androidx.test.runner)
+//    // coroutines
+//    implementation(libs.kotlinx.coroutines)
+//
+//    // custom test runners
+//    implementation(libs.androidx.test.runner)
 
     /////// test dependencies
 
@@ -132,6 +132,8 @@ dependencies {
     testImplementation(libs.dagger.hilt.android.testing)
     kaptTest(libs.dagger.hilt.android.compiler)
 
+    // mockk
+//    testImplementation(libs.mockk)
 
     // mockito
     testImplementation(libs.mockito.core)

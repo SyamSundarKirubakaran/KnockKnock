@@ -31,6 +31,9 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
+import io.reactivex.Observable
+import io.reactivex.functions.BiFunction
+import java.util.concurrent.TimeUnit
 import kotlin.contracts.ExperimentalContracts
 import kotlin.contracts.contract
 
@@ -174,3 +177,18 @@ val Boolean?.orTrue: Boolean
 
 val Boolean?.orFalse: Boolean
     get() = this ?: false
+
+fun <T> Observable<T>.retryWhenError(retryCount: Int, delayInSeconds: Long): Observable<T> {
+    return retryWhen { errors ->
+        errors.zipWith(
+            Observable.range(1, retryCount)
+        ) { throwable: Throwable, count: Int -> Pair(throwable, count) }
+            .flatMap { count: Pair<Throwable, Int> ->
+                if (count.second < retryCount) {
+                    Observable.timer(delayInSeconds, TimeUnit.SECONDS)
+                } else {
+                    Observable.error(count.first)
+                }
+            }
+    }
+}

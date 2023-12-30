@@ -1,8 +1,8 @@
-package work.syam.knockknock.presentation.util
+package work.syam.knockknock.util
 
 import work.syam.knockknock.data.model.User
 
-object MockData {
+object TestMockData {
 
     val user1 = User(
         name = "Tom Preston-Werner",
@@ -26,14 +26,6 @@ object MockData {
         followers = 8266,
         id = 3,
         location = "San Francisco"
-    )
-
-    val user4 = User(
-        name = "Syam Sundar Kirubakaran",
-        avatarUrl = "https://avatars.githubusercontent.com/u/26897680?v=4",
-        followers = 83,
-        id = 26897680,
-        location = "Los Angeles, CA",
     )
 
 }

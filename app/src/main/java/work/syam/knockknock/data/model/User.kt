@@ -12,4 +12,12 @@ data class User(
     @SerializedName("public_repos")
     val publicRepos: Int? = null,
     val url: String? = null
-)
+) {
+    fun isNotEmpty(): Boolean {
+        return !avatarUrl.isNullOrEmpty() &&
+                followers != null &&
+                id != null &&
+                !location.isNullOrEmpty() &&
+                !avatarUrl.isNullOrEmpty()
+    }
+}
