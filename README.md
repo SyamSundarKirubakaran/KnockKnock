@@ -5,4 +5,4 @@ for the UI part - use compose please!)
 
 ## Screen Shot
 
-<img src="img/home.png" height=560 width =280 />
+<img src="img/home.png" height=600 width =280 />
